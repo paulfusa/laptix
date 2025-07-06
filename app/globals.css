@@ -1,6 +1,9 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
 
 * {
   margin: 0;
@@ -43,17 +46,19 @@
   background: #7878a3;
 }
 
-@layer utilities {
-  .input-class {
-    @apply text-16 placeholder:text-16 rounded-lg border border-gray-300 text-gray-900 placeholder:text-gray-500;
+ .input-class {
+    @apply text-[16px] leading-[24px] placeholder:text-[16px] placeholder:leading-[24px] rounded-lg border border-gray-300 text-gray-900 placeholder:text-gray-500;
   }
+
+@layer utilities {
+ 
 
   .sheet-content button {
     @apply focus:ring-0 focus-visible:ring-transparent focus:ring-offset-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-visible:border-none !important;
   }
 
   .text14_padding10 {
-    @apply text-14 px-4 py-2.5 font-semibold;
+    @apply text-[14px] leading-[20px] px-4 py-2.5 font-semibold;
   }
 
   .flex-center {
@@ -61,7 +66,7 @@
   }
 
   .header-2 {
-    @apply text-18 font-semibold text-gray-900;
+    @apply text-[18px] leading-[22px] font-semibold text-gray-900;
   }
 
   .text-10 {
@@ -126,11 +131,11 @@
   }
 
   .total-balance-label {
-    @apply text-14 font-medium text-gray-600;
+    @apply text-[14px] leading-[20px] font-medium text-gray-600;
   }
 
   .total-balance-amount {
-    @apply text-24 lg:text-30 flex-1 font-semibold text-gray-900;
+    @apply text-[24px] leading-[30px] lg:text-[30px] lg:leading-[38px] flex-1 font-semibold text-gray-900;
   }
 
   .recent-transactions {
@@ -146,7 +151,7 @@
   }
 
   .recent-transactions-label {
-    @apply text-20 md:text-24 font-semibold text-gray-900;
+    @apply text-[20px] leading-[24px] md:text-[24px] md:leading-[30px] font-semibold text-gray-900;
   }
 
   .recent-transactions-tablist {
@@ -175,11 +180,11 @@
   }
 
   .profile-name {
-    @apply text-24 font-semibold text-gray-900;
+    @apply text-[24px] leading-[30px] font-semibold text-gray-900;
   }
 
   .profile-email {
-    @apply text-16 font-normal text-gray-600;
+    @apply text-[16px] leading-[24px] font-normal text-gray-600;
   }
 
   .banks {
@@ -213,11 +218,11 @@
   }
 
   .header-box-title {
-    @apply text-24 lg:text-30 font-semibold text-gray-900;
+    @apply text-[24px] leading-[30px] lg:text-[30px] lg:leading-[38px]  font-semibold text-gray-900;
   }
 
   .header-box-subtext {
-    @apply text-14 lg:text-16 font-normal text-gray-600;
+    @apply text-[14px] leading-[20px] lg:text-[16px] lg:leading-[24px] font-normal text-gray-600;
   }
 
   /* Bank Card */
@@ -284,19 +289,19 @@
   }
 
   .form-label {
-    @apply text-14 w-full max-w-[280px] font-medium text-gray-700;
+    @apply text-[14px] leading-[20px] w-full max-w-[280px] font-medium text-gray-700;
   }
 
   .form-message {
-    @apply text-12 text-red-500;
+    @apply text-[12px] leading-[16px] text-red-500;
   }
 
   .form-btn {
-    @apply text-16 rounded-lg border border-bankGradient bg-bank-gradient font-semibold text-white shadow-form;
+    @apply text-[16px] leading-[24px] rounded-lg border border-bankGradient bg-bank-gradient font-semibold text-white shadow-form;
   }
 
   .form-link {
-    @apply text-14 cursor-pointer font-medium text-bankGradient;
+    @apply text-[14px] leading-[20px] cursor-pointer font-medium text-bankGradient;
   }
 
   /* Payment Transfer */
@@ -321,7 +326,7 @@
   }
 
   .payment-transfer_btn {
-    @apply text-14 w-full bg-bank-gradient font-semibold text-white shadow-form !important;
+    @apply text-[14px] leading-[20px] w-full bg-bank-gradient font-semibold text-white shadow-form !important;
   }
 
   /* Root Layout */
@@ -377,6 +382,6 @@
   }
 
   .sidebar-label {
-    @apply text-16 font-semibold text-black-2 max-xl:hidden;
+    @apply text-[16px] leading-[24px] font-semibold text-black-2 max-xl:hidden;
   }
 }
