@@ -46,6 +46,7 @@ export const signUp = async ({password, ...userData}: SignUpParams) => {
       throw new Error("Error creating Dwolla customer");
     }
 
+    // Extract the Dwolla customer ID from the returned URL before storing.
     const dwollaCustomerId = extractCustomerIdFromUrl(dwollaCustomerUrl);
 
     const newUser = await database.createDocument(
@@ -55,8 +56,9 @@ export const signUp = async ({password, ...userData}: SignUpParams) => {
       {
         ...userData,
         userID: newUserAccount.$id,
-        dwollaCustomerId,
-        dwollaCustomerUrl
+        // Appwrite collection requires the capitalized fields below.
+        dwollaCustomerURL: dwollaCustomerUrl,
+        dwollaCustomerID: dwollaCustomerId,
       }
     );
 

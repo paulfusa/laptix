@@ -44,7 +44,7 @@ const AuthForm = ({type}: {type:string}) => {
                 password: data.password,
                 city: data.city!,
                 state: data.state!,
-                zip: data.zip!,
+                postalCode: data.postalCode!,
                 dateOfBirth: data.dateOfBirth!,
                 ssn: data.ssn!,
                 address1: data.address1!,
@@ -127,7 +127,7 @@ const AuthForm = ({type}: {type:string}) => {
                             
                             <div className="flex gap-4">
                                 <CustomInput control={form.control} name="state" label="State" placeholder="Enter your state" />
-                                <CustomInput control={form.control} name="zip" label="ZIP Code" placeholder="Enter your ZIP code" />
+                                <CustomInput control={form.control} name="postalCode" label="ZIP / Postal Code" placeholder="Enter your ZIP code" />
                             </div>
                             <div className="flex gap-4">
                                 <CustomInput control={form.control} name="dateOfBirth" label="Date of Birth" placeholder="YYYY-MM-DD" />

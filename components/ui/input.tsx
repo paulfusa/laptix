@@ -2,7 +2,13 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-function Input({ className, type, ...props }: React.ComponentProps<"input">) {
+function Input({ className, type, value, defaultValue, ...props }: React.ComponentProps<"input">) {
+  // Force the input to be controlled for its whole lifetime to avoid React's
+  // uncontrolled -> controlled warning. We prefer an explicit controlled input
+  // by always supplying `value`. If the caller passed `value`, use it. Otherwise
+  // fall back to `defaultValue` (if provided) or an empty string.
+  const valueProp = value ?? (defaultValue as any) ?? "";
+
   return (
     <input
       type={type}
@@ -13,6 +19,7 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
         "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
         className
       )}
+      value={valueProp}
       {...props}
     />
   )
