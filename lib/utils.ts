@@ -187,7 +187,7 @@ export function encryptId(id: string) {
 export function decryptId(id: string) {
   return atob(id);
 }
-
+// TO CHANGE: CHANGE TO ACTUAL BANK DAY TIME TO PROCESS TRANSACTION
 export const getTransactionStatus = (date: Date) => {
   const today = new Date();
   const twoDaysAgo = new Date(today);

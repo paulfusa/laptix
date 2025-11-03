@@ -1,4 +1,23 @@
-import Image from "next/image";
+export const dynamic = 'force-dynamic'
+
+import type { Metadata } from "next";
+import { Inter, IBM_Plex_Serif } from "next/font/google";
+import "./globals.css";
+
+const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
+const ibmPlexSerif = IBM_Plex_Serif({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-ibm-plex-serif'
+})
+
+export const metadata: Metadata = {
+  title: "Horizon",
+  description: "Horizon is a modern banking platform for everyone.",
+  icons: {
+    icon: '/icons/logo.svg'
+  }
+};
 
 export default function RootLayout({
   children,
@@ -6,13 +25,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="flex min-h-screen w-full justify-between font-inter">
-      {children}
-      <div className="auth-asset">
-        <div>
-          <Image src="/icons/auth-image.svg" alt="Auth Image" width={500} height={500} />
-        </div>
-      </div>
-    </main>
+    <html lang="en">
+      <body className={`${inter.variable} ${ibmPlexSerif.variable}`}>{children}</body>
+    </html>
   );
 }
