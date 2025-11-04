@@ -526,3 +526,11 @@ body {
     
   }
 }
+
+
+/* --------- TOP NAV BAR ---------- */
+.navbar-top {
+  position: sticky;
+  top: 0;
+  padding-block: 20px;
+}

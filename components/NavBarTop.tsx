@@ -10,10 +10,10 @@ import Footer from './Footer';
 import PlaidLink from './PlaidLink';
 import { ModeToggle } from './ui/mode-toggle';
 
-const Sidebar = ({user}: SidebarProps) => {
+const NavBarTop = ({user}: NavBarTopProps) => {
   const pathname = usePathname();
   return (
-    <section className="sidebar">
+    <header className="navbar-top">
         <nav className="flex flex-col gap-4">
             <Link href="/" className="mb-12 flex cursor-pointer items-center gap-2"> 
                 <Image 
@@ -49,8 +49,8 @@ const Sidebar = ({user}: SidebarProps) => {
         <ModeToggle />
         </nav>
         <Footer user={user}/>
-    </section>
+    </header>
   )
 }
 
-export default Sidebar
+export default NavBarTop

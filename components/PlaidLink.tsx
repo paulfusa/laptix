@@ -48,6 +48,7 @@ const PlaidLink = ({user, variant}: PlaidLinkProps) => {
   return (
     <>
       {variant === 'primary' ? (
+        // SIGNING UP
         <Button
           onClick={() => open()}
           disabled={!ready}
@@ -66,14 +67,14 @@ const PlaidLink = ({user, variant}: PlaidLinkProps) => {
           <p className='hiddenl text-[16px] font-semibold sidebar-label xl:block'>Connect bank</p>
         </Button>
       ) : (
+        // RIGHT SIDEBAR
         <Button onClick={() => open()} className="plaidlink-default shadow-fade">
           <Image
-            src="/icons/connect-bank.svg"
-            alt="connect bank"
-            width={24}
-            height={24}
-          />
-          <p className='sidebar-label'>Connect bank</p>
+            src="/icons/plus.svg"
+            alt="Add Bank"
+            width={20}
+            height={20}/>
+          <h2 className= "text-14 font-semibold text-gray-600">Add Bank</h2>
         </Button>
       )}
     </>
