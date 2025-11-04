@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils'
 import { usePathname } from 'next/navigation'
 import Footer from './Footer';
 import PlaidLink from './PlaidLink';
+import { ModeToggle } from './ui/mode-toggle';
 
 const Sidebar = ({user}: SidebarProps) => {
   const pathname = usePathname();
@@ -16,11 +17,11 @@ const Sidebar = ({user}: SidebarProps) => {
         <nav className="flex flex-col gap-4">
             <Link href="/" className="mb-12 flex cursor-pointer items-center gap-2"> 
                 <Image 
-                src="/icons/logo.svg" 
+                src="/icons/laptix-logo.png" 
                 alt="Laptix Logo" 
-                width={34} height={34} 
-                className="size-[24px] max-xl:size-14"/>
-                <h1 className="sidebar-logo">Laptix</h1>
+                width={36} height={36} 
+                className="size-[36px] max-xl:size-12"/>
+                <h1 className="sidebar-logo p-1">Laptix</h1>
             </Link>
 
             {sidebarLinks.map((item) => {
@@ -29,7 +30,7 @@ const Sidebar = ({user}: SidebarProps) => {
                     <Link 
                         href={item.route}
                         key={item.label}
-                        className={cn('sidebar-link', {'bg-bank-gradient': isActive})}
+                        className={cn('sidebar-link', { 'bg-primary-gradient shadow-s': isActive })}
                     >
                         <div className="relative-size-6">
                             <Image 
@@ -46,7 +47,7 @@ const Sidebar = ({user}: SidebarProps) => {
                 )
             })}
         <PlaidLink user={user}/>
-        
+        <ModeToggle />
         </nav>
         <Footer user={user}/>
     </section>

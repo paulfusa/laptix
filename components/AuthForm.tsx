@@ -80,22 +80,22 @@ const AuthForm = ({type}: {type:string}) => {
             <header className='flex flex-col gap-5 md:gap-8'>
                 <Link href="/" className="flex cursor-pointer items-center "> 
                     <Image 
-                        src="/icons/logo.svg" 
+                        src="/icons/laptix-logo.png" 
                         alt="Laptix Logo" 
-                        width={34} height={34} 
+                        width={36} height={36} 
                         />
-                    <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">Laptix</h1>
+                    <h1 className="text-26 font-bold p-2">Laptix</h1>
                 </Link>
                 
                 <div className="flex flex-col gap-1 md:gap-3">
-                    <h1 className="text-24 lg:text-36 font-semibold text-gray-900">
+                    <h1 className="text-24 lg:text-36 font-semibold">
                         {user
                             ? 'Link Account'
                             : type === 'sign-in'
                             ? 'Sign In'
                             : 'Sign Up'
                         }
-                        <p className='text-16 font-normal text-gray-600'>
+                        <p className='text-16 font-normal'>
                             {user
                                 ? 'Link your account to continue'
                                 : 'Create a new account to get started.'
@@ -152,7 +152,7 @@ const AuthForm = ({type}: {type:string}) => {
 
                     {/* FOOTER */}
                     <footer className='flex justify-center gap-1'>
-                        <p className='text-14 font-normal text-gray-600'>{type === 'sign-in'
+                        <p className='text-14 font-normal'>{type === 'sign-in'
                         ? "Don't have an account?"
                         : "Already have an account?"}
                         </p>

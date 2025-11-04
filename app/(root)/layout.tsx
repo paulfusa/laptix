@@ -3,6 +3,7 @@ import Sidebar from "@/components/Sidebar";
 import MobileNav from '@/components/MobileNav';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
+import { ThemeProvider } from '@/components/theme-provider';
 
 export default async function RootLayout({
   children,
@@ -17,7 +18,7 @@ export default async function RootLayout({
       <div className="flex size-full flex-col">
         <div className="root-layout">
           <Image
-            src="/icons/logo.svg"
+            src="/icons/laptix-logo.png"
             width={30} height={30}
             alt="Laptix Logo"/>
             <div>
@@ -26,6 +27,7 @@ export default async function RootLayout({
         </div>
         {children}
       </div>
+      
     </main>
   );
 }

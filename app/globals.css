@@ -5,11 +5,104 @@
 
 
 
+/* ---------- RESET STYLES ----------  */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
+:root {
+  --transition: 0.1s ease-in-out;
+}
+:root {
+  /* bg-colors */
+  --primary: oklch(55.671% 0.24453 262.671);
+  --primary-gradient: linear-gradient(70deg, var(--primary) 0%, rgb(89, 144, 246) 100%);
+  --bg-dark: oklch(0.1 0 264);
+  --bg: oklch(0.2 0 264);
+  --bg-light: oklch(0.3 0 264);
+  
+  /* text-colors */
+  --text: oklch(0.96 0 264);
+  --text-muted: oklch(0.76 0 264);
+  /* shadows */
+  --shadow-s: inset 0 1px 2px #ffffff30, /* top highlight */ 0 1px 2px #00000030,
+    /* dark shadow */ 0 2px 4px #00000015; /* soft shadow */
+  --shadow-m: inset 0 1px 2px #ffffff50, /* top highlight */ 0 2px 4px #00000030,
+    /* dark shadow */ 0 4px 8px #00000015; /* soft shadow */
+  --shadow-l: inset 0 1px 2px #ffffff70, /* top highlight */ 0 4px 6px #00000030,
+    /* dark shadow */ 0 6px 10px #00000015; /* soft shadow */
+}
+html.light {
+  /* bg-colors */
+  --bg-dark: oklch(0.92 0 264);
+  --bg: oklch(0.96 0 264);
+  --bg-light: oklch(1 0 264);
+  /* text-colors */
+  --text: oklch(0.15 0 264);
+  --text-muted: oklch(0.4 0 264);
+}
+body {
+  /* background: var(--bg-dark); */
+  /* color: var(--text-muted); */
+}
+
+/* shadows */
+.shadows {
+  background: var(--bg);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+
+  padding: 1rem;
+  gap: 1rem;
+  margin: 2rem 0 4rem 0;
+  border-radius: 1.5rem;
+}
+.shadows div {
+  background: var(--bg-light);
+  padding: 2rem;
+  border-radius: 1rem;
+}
+
+.shadow-s {
+  box-shadow: var(--shadow-s);
+}
+.shadow-m {
+  box-shadow: var(--shadow-m);
+}
+.shadow-l {
+  box-shadow: var(--shadow-l);
+}
+
+.shadow-s-in {
+  box-shadow: inset var(--shadow-s);
+}
+.shadow-m-in {
+  box-shadow: inset var(--shadow-m);
+}
+.shadow-l-in {
+  box-shadow: inset var(--shadow-l);
+}
+
+.border-radius {
+  border-radius: 28px;
+}
+
+
+.bg-primary-gradient {
+  background-image: var(--primary-gradient);
+  /* fallback color (in case gradient can't be applied) */
+  background-color: var(--primary);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+
+
+/* ---------- GENERAL SETTINGS ----------  */
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
@@ -46,9 +139,14 @@
   background: #7878a3;
 }
 
- .input-class {
-    @apply text-[16px] leading-[24px] placeholder:text-[16px] placeholder:leading-[24px] rounded-lg border border-gray-300 text-gray-900 placeholder:text-gray-500;
-  }
+
+
+.input-class {
+  @apply text-[16px] leading-[24px] placeholder:text-[16px] placeholder:leading-[24px] rounded-lg border border-gray-300 text-gray-900 placeholder:text-gray-500;
+}
+
+
+/* ---------- UTILITIES ---------- */
 
 @layer utilities {
  
@@ -109,7 +207,7 @@
     @apply text-[36px] leading-[44px];
   }
 
-  /* Home */
+  /* ---------- HOME ---------- */
   .home {
     @apply no-scrollbar flex w-full flex-row max-xl:max-h-screen max-xl:overflow-y-scroll;
   }
@@ -122,12 +220,16 @@
     @apply flex flex-col justify-between gap-8;
   }
 
-  .total-balance {
+  /* .total-balance {
     @apply flex w-full items-center gap-4 rounded-xl border border-gray-200 p-4 shadow-chart sm:gap-6 sm:p-6;
+  } */
+
+  .total-balance {
+    @apply flex items-center sm:gap-8 sm:p-8 shadow-m border-radius;
   }
 
   .total-balance-chart {
-    @apply flex size-full max-w-[100px] items-center sm:max-w-[120px];
+    @apply flex size-full max-w-[100px] items-center sm:max-w-[120px]  ;
   }
 
   .total-balance-label {
@@ -146,19 +248,15 @@
     @apply text-14 rounded-lg border border-gray-300 px-4 py-2.5 font-semibold text-gray-700;
   }
 
-  .recent-transactions {
-    @apply flex w-full flex-col gap-6;
-  }
-
   .recent-transactions-label {
     @apply text-[20px] leading-[24px] md:text-[24px] md:leading-[30px] font-semibold text-gray-900;
   }
 
   .recent-transactions-tablist {
-    @apply custom-scrollbar mb-8 flex w-full flex-nowrap;
+    @apply custom-scrollbar mb-8 flex w-full flex-nowrap ;
   }
 
-  /* Right sidebar */
+  /* ---------- RIGHT SIDEBAR ---------- */
   .right-sidebar {
     @apply no-scrollbar hidden h-screen max-h-screen flex-col border-l border-gray-200 xl:flex w-[355px] xl:overflow-y-scroll !important;
   }
@@ -191,14 +289,14 @@
     @apply flex flex-col justify-between gap-8 px-6 py-8;
   }
 
-  /* My Banks */
+  /* ---------- MY BANKS ---------- */
   .my-banks {
     @apply flex h-screen max-h-screen w-full flex-col gap-8 bg-gray-25 p-8 xl:py-12;
   }
 
-  /* My Banks */
+  /* ---------- TRANSACTIONS ---------- */
   .transactions {
-    @apply flex max-h-screen w-full flex-col gap-8 overflow-y-scroll bg-gray-25 p-8 xl:py-12;
+    @apply flex max-h-screen w-full flex-col gap-8 overflow-y-scroll bg-gray-25 p-8 xl:py-12 border-radius shadow-m;
   }
 
   .transactions-header {
@@ -225,7 +323,7 @@
     @apply text-[14px] leading-[20px] lg:text-[16px] lg:leading-[24px] font-normal text-gray-600;
   }
 
-  /* Bank Card */
+  /* ---------- BANK CARD ---------- */
   .bank-card {
     @apply relative flex h-[190px] w-full max-w-[320px] justify-between rounded-[20px] border border-white bg-bank-gradient shadow-creditCard backdrop-blur-[6px];
   }
@@ -238,12 +336,12 @@
     @apply flex size-full flex-1 flex-col items-end justify-between rounded-r-[20px] bg-bank-gradient bg-cover bg-center bg-no-repeat py-5 pr-5;
   }
 
-  /* Bank Info */
+  /* ---------- BANK INFO ---------- */
   .bank-info {
     @apply gap-[18px] flex p-4 transition-all border bg-blue-25 border-transparent;
   }
 
-  /* Category Badge */
+  /* ---------- CATEGORY BADGE ---------- */
   .category-badge {
     @apply flex-center truncate w-fit gap-1 rounded-2xl border-[1.5px] py-[2px] pl-1.5 pr-2;
   }
@@ -252,7 +350,7 @@
     @apply gap-[18px] border-b-2 flex px-2 sm:px-4 py-2 transition-all;
   }
 
-  /* Mobile nav */
+  /* ---------- MOBILE NAV ---------- */
   .mobilenav-sheet {
     @apply flex h-[calc(100vh-72px)] flex-col justify-between overflow-y-auto;
   }
@@ -261,7 +359,7 @@
     @apply flex gap-3 items-center p-4 rounded-lg w-full max-w-60;
   }
 
-  /* PlaidLink */
+  /* ---------- PLAID LINK ---------- */
   .plaidlink-primary {
     @apply text-16 rounded-lg border border-bankGradient bg-bank-gradient font-semibold text-white shadow-form;
   }
@@ -274,12 +372,12 @@
     @apply flex !justify-start cursor-pointer gap-3 rounded-lg !bg-transparent flex-row;
   }
 
-  /* Auth */
+  /* ---------- AUTH ---------- */
   .auth-asset {
     @apply flex h-screen w-full sticky top-0 items-center justify-end bg-sky-1 max-lg:hidden;
   }
 
-  /* Auth Form */
+  /* ---------- AUTH FORM ---------- */
   .auth-form {
     @apply flex min-h-screen w-full max-w-[420px] flex-col justify-center gap-5 py-10 md:gap-8;
   }
@@ -304,7 +402,7 @@
     @apply text-[14px] leading-[20px] cursor-pointer font-medium text-bankGradient;
   }
 
-  /* Payment Transfer */
+  /* ---------- PAYMENT TRANSFER ---------- */
   .payment-transfer {
     @apply no-scrollbar flex flex-col overflow-y-scroll bg-gray-25 p-8 md:max-h-screen xl:py-12;
   }
@@ -329,17 +427,17 @@
     @apply text-[14px] leading-[20px] w-full bg-bank-gradient font-semibold text-white shadow-form !important;
   }
 
-  /* Root Layout */
+  /* ---------- ROOT LAYOUT ---------- */
   .root-layout {
     @apply flex h-16 items-center justify-between p-5 shadow-creditCard sm:p-8 md:hidden;
   }
 
-  /* Bank Info */
+  /* ---------- BANK INFO ---------- */
   .bank-info_content {
     @apply flex flex-1 items-center justify-between gap-2 overflow-hidden;
   }
 
-  /* Footer */
+  /* ---------- FOOTER ---------- */
   .footer {
     @apply flex cursor-pointer items-center justify-between gap-2 py-6;
   }
@@ -368,13 +466,17 @@
     @apply relative size-5;
   }
 
-  /* Sidebar */
+  /* ---------- SIDEBAR ---------- */
   .sidebar {
-    @apply sticky left-0 top-0 flex h-screen w-fit flex-col  justify-between border-r border-gray-200 bg-white pt-8 text-white max-md:hidden sm:p-4 xl:p-6 2xl:w-[355px];
+    @apply sticky left-0 top-0 flex h-screen w-fit flex-col justify-between border-r max-md:hidden sm:p-4 xl:p-5 2xl:w-[355px] pt-8;
+    /* Use theme variables so the sidebar follows light/dark themes */
+    background: var(--bg);
+    color: var(--text);
   }
 
   .sidebar-logo {
-    @apply 2xl:text-26 font-ibm-plex-serif text-[26px] font-bold text-black-1 max-xl:hidden;
+    @apply 2xl:text-26 text-[26px] font-bold max-xl:hidden;
+    color: inherit; 
   }
 
   .sidebar-link {
@@ -382,6 +484,45 @@
   }
 
   .sidebar-label {
-    @apply text-[16px] leading-[24px] font-semibold text-black-2 max-xl:hidden;
+    @apply text-[16px] leading-[24px] font-semibold max-xl:hidden;
+    /* non-selected sidebar labels use the muted text token */
+    color: var(--text-muted);
+    transition: color var(--transition);
+  }
+
+  /* When the parent is hovered/focused, promote muted text to normal text color */
+  .shadow-fade:hover .sidebar-label,
+  .sidebar-link:hover .sidebar-label,
+  .shadow-fade:focus .sidebar-label,
+  .sidebar-link:focus .sidebar-label {
+    color: var(--text) !important;
+  }
+
+  /* Also support generic .text-muted children inside shadow-fade/sidebar-link */
+  .text-muted {
+    color: var(--text-muted) !important;
+    transition: color var(--transition);
+  }
+
+  .shadow-fade:hover .text-muted,
+  .sidebar-link:hover .text-muted,
+  .shadow-fade:focus .text-muted,
+  .sidebar-link:focus .text-muted {
+    color: var(--text) !important;
+  }
+
+  /* Shared hover/focus transition: fade-in shadow and slight lift
+     Applied to both .sidebar-link and .shadow-fade so there's a single source of truth */
+  .shadow-fade, .sidebar-link {
+    box-shadow: none; /* start with no shadow so hover can animate in */
+    transition: box-shadow var(--transition), transform var(--transition);
+    will-change: box-shadow, transform;
+  }
+
+  .shadow-fade:hover, .sidebar-link:hover,
+  .shadow-fade:focus, .sidebar-link:focus {
+    box-shadow: var(--shadow-m);
+    /* transform: translateY(-1px); */
+    
   }
 }

@@ -47,36 +47,35 @@ const PlaidLink = ({user, variant}: PlaidLinkProps) => {
 
   return (
     <>
-    {variant === 'primary' ? (
+      {variant === 'primary' ? (
         <Button
           onClick={() => open()}
           disabled={!ready}
-          className="plaidlink-primary"
+          className="plaidlink-primary shadow-fade"
         >
           Connect bank
         </Button>
-      ): variant === 'ghost' ? (
-        <Button onClick={() => open()} variant="ghost" className="plaidlink-ghost">
-          <Image 
+      ) : variant === 'ghost' ? (
+        <Button onClick={() => open()} variant="ghost" className="plaidlink-ghost shadow-fade">
+          <Image
             src="/icons/connect-bank.svg"
             alt="connect bank"
             width={24}
             height={24}
           />
-          <p className='hiddenl text-[16px] font-semibold text-black-2 xl:block'>Connect bank</p>
+          <p className='hiddenl text-[16px] font-semibold sidebar-label xl:block'>Connect bank</p>
         </Button>
-      ): (
-        <Button onClick={() => open()} className="plaidlink-default">
-          <Image 
+      ) : (
+        <Button onClick={() => open()} className="plaidlink-default shadow-fade">
+          <Image
             src="/icons/connect-bank.svg"
             alt="connect bank"
             width={24}
             height={24}
           />
-          <p className='text-[16px] font-semibold text-black-2'>Connect bank</p>
+          <p className='sidebar-label'>Connect bank</p>
         </Button>
       )}
-    
     </>
   )
 }

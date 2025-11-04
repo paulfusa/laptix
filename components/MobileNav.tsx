@@ -32,7 +32,7 @@ const MobileNav = ({user}:MobileNavProps) => {
                     <nav className="flex flex-col px-4 ">
                         <Link href="/" className="flex cursor-pointer items-center  px-4 py-8"> 
                             <Image 
-                            src="/icons/logo.svg" 
+                            src="/icons/laptix-logo.png" 
                             alt="Laptix Logo" 
                             width={34} height={34} 
                             />
