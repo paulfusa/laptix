@@ -1,6 +1,5 @@
 import Image from 'next/image'
-import Sidebar from "@/components/Sidebar";
-import MobileNav from '@/components/MobileNav';
+import { cookies } from 'next/headers';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
 
@@ -10,11 +9,12 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const loggedIn = await getLoggedInUser();
-  // This is the layout for auth pages (sign-in / sign-up). If the user is
-  // already logged in, redirect them to the app root. If not logged in,
-  // allow rendering the auth pages (do not redirect back to /sign-in — that
-  // would create a redirect loop).
-  if (loggedIn) redirect('/');
+  // Allow a temporary 'linking' cookie to keep the auth layout open while a
+  // newly-signed-up user completes the Plaid link flow. If the user is
+  // logged in and NOT currently linking, redirect to the app root.
+  const cookieStore = await cookies();
+  const linking = cookieStore.get('linking');
+  if (loggedIn && !linking) redirect('/');
   // Auth pages should not render the full app chrome (Sidebar / Nav)
   // — they are public and may mount client components that assume a user.
   // Keep this layout minimal so sign-in / sign-up don't trigger user-only

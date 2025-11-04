@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Button } from './ui/button';
 import { useRouter } from 'next/navigation';
 import { usePlaidLink, type PlaidLinkOnSuccess, type PlaidLinkOptions } from 'react-plaid-link';
-import { createLinkToken, exchangePublicToken } from '@/lib/actions/user.actions';
+import { createLinkToken, exchangePublicToken, clearLinkingCookie } from '@/lib/actions/user.actions';
 import Image from 'next/image';
 
 const PlaidLink = ({user, variant}: PlaidLinkProps) => {
@@ -28,7 +28,9 @@ const PlaidLink = ({user, variant}: PlaidLinkProps) => {
       if (!result?.bankAccount) {
         throw new Error('Failed to create bank account');
       }
-      
+      // Clear the temporary linking cookie so the auth layout will allow
+      // normal redirection for logged-in users.
+      await clearLinkingCookie();
       router.push('/');
     } catch (error) {
       console.error('Failed to set up bank account:', error);

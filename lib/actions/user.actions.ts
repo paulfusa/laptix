@@ -90,10 +90,22 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
       }
     )
 
+    // Create a session and set cookies so the client can perform server-side
+    // actions that require an authenticated account while we complete the
+    // Plaid linking flow. We also set a temporary 'linking' cookie so the
+    // auth layout knows to allow rendering the auth pages during the
+    // link-account step instead of redirecting immediately to the app root.
     const session = await account.createEmailPasswordSession(email, password);
     const cookieStore = await cookies(); // Required for Next.js 13.4+
-    // See note above about secure flag in development vs production.
     cookieStore.set("appwrite-session", session.secret, {
+      path: "/",
+      httpOnly: true,
+      sameSite: "strict",
+      secure: process.env.NODE_ENV === "production",
+    });
+
+    // Temporary flag to keep the auth layout open for linking.
+    cookieStore.set("linking", "1", {
       path: "/",
       httpOnly: true,
       sameSite: "strict",
@@ -295,6 +307,19 @@ export const exchangePublicToken = async ({ publicToken, user }: exchangePublicT
   } catch (error) {
     console.error("Error exchanging public token:", error);
     throw error; // Re-throw so the UI can handle the error
+  }
+}
+
+// Server action used by client components after a successful Plaid link to
+// clear the temporary 'linking' cookie that keeps the auth layout open.
+export const clearLinkingCookie = async () => {
+  try {
+    const cookieStore = await cookies();
+    cookieStore.delete('linking');
+    return true;
+  } catch (error) {
+    console.error('[clearLinkingCookie] Error', error);
+    return false;
   }
 }
 
