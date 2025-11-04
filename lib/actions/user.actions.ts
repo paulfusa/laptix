@@ -34,18 +34,21 @@ export const signIn = async ({ email, password }: signInProps) => {
 
     const session = await account.createEmailPasswordSession(email, password);
     const cookieStore = await cookies(); // Required for Next.js 13.4+
+    // In development (http) we must not set `secure: true` otherwise the
+    // cookie won't be stored by the browser. Use secure cookies only in
+    // production (https).
     cookieStore.set("appwrite-session", session.secret, {
       path: "/",
       httpOnly: true,
       sameSite: "strict",
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
     });
 
-    const user = await getUserInfo({ userId: session.userId }) 
+    const user = await getUserInfo({ userId: session.userId });
 
     return parseStringify(user);
   } catch (error) {
-    console.error('Error', error);
+    console.error('[signIn] Error', error);
   }
 }
 
@@ -89,11 +92,12 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
 
     const session = await account.createEmailPasswordSession(email, password);
     const cookieStore = await cookies(); // Required for Next.js 13.4+
+    // See note above about secure flag in development vs production.
     cookieStore.set("appwrite-session", session.secret, {
       path: "/",
       httpOnly: true,
       sameSite: "strict",
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
     });
 
     return parseStringify(newUser);
@@ -103,28 +107,44 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
 }
 
 export async function getLoggedInUser() {
+  // Try to create a session client. If none exists, return null quietly
+  // (don't log a stack trace) — callers expect null for unauthenticated users.
+  const sessionClient = await createSessionClient();
+  if (!sessionClient) return null;
+
   try {
-    const { account } = await createSessionClient();
+    const { account } = sessionClient;
     const result = await account.get();
 
-    const user = await getUserInfo({ userId: result.$id})
+    const user = await getUserInfo({ userId: result.$id});
 
     return parseStringify(user);
   } catch (error) {
-    console.log(error)
+    // If account.get() or subsequent calls fail, log at debug level but
+    // return null so the app treats the request as unauthenticated.
+    console.debug('[getLoggedInUser] Error fetching user', error);
     return null;
   }
 }
 
 export const logoutAccount = async () => {
   try {
-    const { account } = await createSessionClient();
+    const sessionClient = await createSessionClient();
     const cookieStore = await cookies();
+
+    // Always remove cookie locally
     cookieStore.delete('appwrite-session');
+
+    // If there's no server-side session client (no cookie), consider
+    // logout successful (idempotent).
+    if (!sessionClient) return true;
+
+    const { account } = sessionClient;
     await account.deleteSession('current');
+    return true;
   } catch (error) {
     console.error("Error logging out:", error);
-    return null;
+    return false;
   }
 }
 
@@ -135,7 +155,10 @@ export const createLinkToken = async (user: User) => {
         client_user_id: user.$id
       },
       client_name: `${user.firstName} ${user.lastName}`,
-      products: ['auth'] as Products[],
+      // Request both `auth` and `transactions` so the resulting Item has consent
+      // to access transaction data. If a user previously linked with only `auth`,
+      // they will need to re-link (see notes below).
+      products: ['auth', 'transactions'] as Products[],
       language: 'en',
       country_codes: ['US'] as CountryCode[],
     }

@@ -177,16 +177,20 @@ declare interface PlaidLinkProps {
   user: User;
   variant?: "primary" | "ghost";
   dwollaCustomerId?: string;
+  // Optional: if provided, PlaidLink will use this link token directly
+  // instead of fetching one from the server. This is the safer flow when
+  // you create an update-mode link token server-side for reconsent.
+  initialLinkToken?: string;
 }
 
-// declare type User = sdk.Models.Document & {
-//   accountId: string;
-//   email: string;
-//   name: string;
-//   items: string[];
-//   accessToken: string;
-//   image: string;
-// };
+declare type User = sdk.Models.Document & {
+  accountId: string;
+  email: string;
+  name: string;
+  items: string[];
+  accessToken: string;
+  image: string;
+};
 
 declare interface AuthFormProps {
   type: "sign-in" | "sign-up";

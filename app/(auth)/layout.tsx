@@ -10,20 +10,18 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const loggedIn = await getLoggedInUser();
-  if(!loggedIn) redirect('/sign-in')
+  // This is the layout for auth pages (sign-in / sign-up). If the user is
+  // already logged in, redirect them to the app root. If not logged in,
+  // allow rendering the auth pages (do not redirect back to /sign-in — that
+  // would create a redirect loop).
+  if (loggedIn) redirect('/');
+  // Auth pages should not render the full app chrome (Sidebar / Nav)
+  // — they are public and may mount client components that assume a user.
+  // Keep this layout minimal so sign-in / sign-up don't trigger user-only
+  // effects (Plaid / footer actions etc.).
   return (
-    <main className="flex h-screen w-full font-inter">
-      <Sidebar user={loggedIn}/>
-      <div className="flex size-full flex-col">
-        <div className="root-layout">
-          <Image
-            src="/icons/logo.svg"
-            width={30} height={30}
-            alt="Laptix Logo"/>
-            <div>
-              <MobileNav user={loggedIn}/>
-            </div>
-        </div>
+    <main className="flex-center size-full font-inter">
+      <div className="auth-container w-full max-w-lg">
         {children}
       </div>
     </main>

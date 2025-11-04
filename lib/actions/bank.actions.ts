@@ -100,6 +100,9 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
       accessToken: bank?.accessToken,
     });
 
+    // Defensive: ensure transactions is an array (getTransactions may return undefined on error)
+    const txs = Array.isArray(transactions) ? transactions : [];
+
     const account = {
       id: accountData.account_id,
       availableBalance: accountData.balances.available!,
@@ -114,7 +117,7 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
     };
 
     // sort transactions by date such that the most recent transaction is first
-      const allTransactions = [...transactions, ...transferTransactions].sort(
+      const allTransactions = [...txs, ...transferTransactions].sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
 
@@ -179,6 +182,12 @@ export const getTransactions = async ({
 
     return parseStringify(transactions);
   } catch (error) {
-    console.error("An error occurred while getting the accounts:", error);
+    console.error(
+      "Plaid transactionsSync error:",
+      (error as any)?.response?.data ?? error
+    );
+
+    // Return a safe empty array so callers can continue (and not crash when spreading)
+    return parseStringify([]);
   }
 };

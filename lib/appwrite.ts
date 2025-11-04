@@ -10,8 +10,11 @@ export async function createSessionClient() {
 
   const cookieStore = await cookies(); //Required for Next.js 13.4+
   const session = cookieStore.get("appwrite-session");
+  // If there's no session cookie, return null instead of throwing. Callers
+  // should handle a null return value. This keeps the server logs clean when
+  // unauthenticated requests hit layouts that check auth state.
   if (!session || !session.value) {
-    throw new Error("No session");
+    return null;
   }
 
   client.setSession(session.value);
