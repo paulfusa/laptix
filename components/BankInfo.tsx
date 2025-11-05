@@ -36,6 +36,7 @@ const BankInfo = ({ account, appwriteItemId, type }: BankInfoProps) => {
         "hover:shadow-sm cursor-pointer": type === "card",
       })}
     >
+      {/* Icon */}
       <figure
         className={`flex-center h-fit rounded-full bg-blue-100 ${colors.lightBg}`}
       >
@@ -47,23 +48,26 @@ const BankInfo = ({ account, appwriteItemId, type }: BankInfoProps) => {
           className="m-2 min-w-5"
         />
       </figure>
+
       <div className="flex w-full flex-1 flex-col justify-center gap-1">
         <div className="bank-info_content">
+          {/* Account Name */}
           <h2
-            className={`text-16 line-clamp-1 flex-1 font-bold text-blue-900 ${colors.title}`}
+            className={`bank-info-acc-name ${colors.title}`}
           >
             {account.name}
           </h2>
+          {/* Account Type */}
           {type === "full" && (
             <p
-              className={`text-12 rounded-full px-3 py-1 font-medium text-blue-700 ${colors.subText} ${colors.lightBg}`}
+              className={`bank-info-acc-type ${colors.subText} ${colors.lightBg}`}
             >
               {account.subtype}
             </p>
           )}
         </div>
-
-        <p className={`text-16 font-medium text-blue-700 ${colors.subText}`}>
+          {/* Balance */}
+        <p className={`bank-info-balance ${colors.subText}`}>
           {formatAmount(account.currentBalance)}
         </p>
       </div>

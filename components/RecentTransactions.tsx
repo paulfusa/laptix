@@ -23,7 +23,7 @@ const RecentTransactions = ({
   )
 
   return (
-    <section className="recent-transactions border-radius shadow-m p-5">
+    <section className="recent-transactions">
       <header className="flex items-center justify-between">
         <h2 className="recent-transactions-label">
           Recent Transactions
@@ -51,10 +51,12 @@ const RecentTransactions = ({
           value={account.appwriteItemId}
           key={account.id}
           className="space-y-4">
+          {/* Account Were Looking At */}
           <BankInfo
             account={account}
             appwriteItemId={appwriteItemId}
             type="full"/>
+          {/* Transactions Table */}
           <TransactionsTable transactions={currentTransactions}/>
           {totalPages > 1 && (
             <div className="my-4 w-full">

@@ -20,13 +20,24 @@
   --primary-gradient: linear-gradient(70deg, var(--primary) 0%, rgb(89, 144, 246) 100%);
   --bg-dark: rgb(3, 3, 3);
   --bg: rgb(22, 22, 22);
-  --bg-light: rgb(46, 46, 46);
+  --bg-light: rgb(30, 30, 30);
+  --bg-light-extra: rgb(60, 60, 60);
   --bg-blur: rgba(22, 22, 22, 0.4);
+  --bg-blue-light: rgb(23, 59, 106);
 
   
   /* text-colors */
   --text: oklch(0.96 0 264);
   --text-muted: oklch(0.76 0 264);
+  --text-blue: rgb(56, 130, 239)  ;
+  --text-blue-light: rgb(134, 196, 255);
+
+  /* row background tokens (dark-mode defaults) */
+  --row-debit-bg: rgba(255, 68, 56, 0.06); /* subtle red tint for debit rows in dark */
+  --row-credit-bg: rgba(3, 153, 90, 0.06); /* subtle green tint for credit rows in dark */
+  /* row border token (dark-mode default) */
+  --row-border: #2b2b2b;
+
   /* shadows */
   --shadow-s: inset 0 1px 2px #ffffff30, /* top highlight */ 0 1px 2px #00000030,
     /* dark shadow */ 0 2px 4px #00000015; /* soft shadow */
@@ -41,12 +52,21 @@ html.light {
   --bg: rgb(242, 242, 242);
   --bg-light: rgb(255, 255, 255);
   --bg-blur: rgba(242, 242, 242, 0.4);
+  --bg-blue-light: rgb(166, 202, 248);
+
 
   /* text-colors */
   --text: oklch(0.15 0 264);
   --text-muted: oklch(0.4 0 264);
-}
+  --text-blue: rgb(13, 71, 161)  ;
+  --text-blue-light: rgb(45, 95, 232);
 
+  /* row background tokens (light mode overrides) */
+  --row-debit-bg: #FFFBFA; /* very light red */
+  --row-credit-bg: #F6FEF9; /* very light green */
+  /* row border token (light-mode override) */
+  --row-border: #E6E6E6;
+}
 
 /* shadows */
 .shadows {
@@ -89,8 +109,13 @@ html.light {
   background-repeat: no-repeat;
 }
 
+.text-color{
+  color: var(--text);
+}
 
-
+.text-color-muted{
+  color: var(--text-muted);
+}
 
 /* ---------- GENERAL SETTINGS ----------  */
 
@@ -136,7 +161,7 @@ html.light {
 }
 
 
-/* ---------- UTILITIES ---------- */
+/* ------------------- UTILITIES ------------------- */
 
 @layer utilities {
  
@@ -260,7 +285,7 @@ html.light {
   }
 
 
-  /* ---------- HOME ---------- */
+  /* ------------------- HOME ------------------- */
   .home {
     @apply no-scrollbar flex w-full flex-row max-xl:max-h-screen max-xl:overflow-y-scroll;
   }
@@ -270,15 +295,16 @@ html.light {
   }
 
   .home-header {
-    @apply flex flex-col justify-between gap-8;
+    @apply flex flex-col gap-8 w-screen;
   }
-
-  /* .total-balance {
-    @apply flex w-full items-center gap-4 rounded-xl border border-gray-200 p-4 shadow-chart sm:gap-6 sm:p-6;
-  } */
-
+  
+  /* Total Balance */
   .total-balance {
     @apply flex items-center sm:gap-8 sm:p-8 shadow-m border-radius;
+    background-color: var(--bg-light);
+  }
+  .total-balance-banks {
+    @apply header-2;
   }
 
   .total-balance-chart {
@@ -287,18 +313,22 @@ html.light {
 
   .total-balance-label {
     @apply text-[14px] leading-[20px] font-medium;
-  }
+    color: var(--text-muted);
 
+  }
   .total-balance-amount {
     @apply text-[24px] leading-[30px] lg:text-[30px] lg:leading-[38px] flex-1 font-semibold;
   }
 
+  /* Recent Transactions */
   .recent-transactions {
-    @apply flex w-full flex-col gap-6;
+    @apply flex w-full flex-col gap-6 border-radius shadow-m p-5;
+    background-color: var(--bg-light)
   }
 
   .view-all-btn {
-    @apply text-14 rounded-lg border border-gray-300 px-4 py-2.5 font-semibold; /* grey out */
+    @apply text-14 border-radius shadow-s px-4 py-2.5 font-semibold; 
+    color: var(--text-muted); 
   }
 
   .recent-transactions-label {
@@ -306,12 +336,15 @@ html.light {
   }
 
   .recent-transactions-tablist {
-    @apply custom-scrollbar mb-8 flex w-full flex-nowrap ;
+    @apply custom-scrollbar mb-8 flex w-full flex-nowrap;
   }
 
-  /* ---------- RIGHT SIDEBAR ---------- */
+
+
+  /* ------------------- RIGHT SIDEBAR ------------------- */
   .right-sidebar {
-    @apply no-scrollbar hidden h-screen max-h-screen flex-col border-l border-gray-200 xl:flex w-[355px] xl:overflow-y-scroll !important;
+    @apply mx-5 no-scrollbar hidden h-full flex-col shadow-l border-radius xl:flex w-[355px] xl:overflow-y-scroll !important;
+    background: var(--bg-light);
   }
 
   .profile-banner {
@@ -335,7 +368,8 @@ html.light {
   }
 
   .profile-email {
-    @apply text-[16px] leading-[24px] font-normal ; /* gray out */
+    @apply text-[16px] leading-[24px] font-normal ; 
+    color: var(--text-muted);
   }
 
   .banks {
@@ -363,7 +397,7 @@ html.light {
   .transactions-account-balance {
     @apply flex-center flex-col  gap-2 rounded-md bg-blue-25/20 px-4 py-2 text-white;
   }
-
+  /* HEADER HOME */
   .header-box {
     @apply flex flex-col gap-1;
   }
@@ -373,8 +407,32 @@ html.light {
   }
 
   .header-box-subtext {
-    @apply text-[14px] leading-[20px] lg:text-[16px] lg:leading-[24px] font-normal ; /* gray out */
+    @apply text-[14px] leading-[20px] lg:text-[16px] lg:leading-[24px] font-normal ;
+    color: var(--text-muted);
   }
+
+  .table-header{
+    @apply shadow-m;
+    background-color: var(--bg-light);
+    border-radius: 10px 10px 0 0;
+  }
+
+  /* -- Row background utility classes use CSS tokens so they follow light/dark mode */
+  .row-debit {
+    background-color: var(--row-debit-bg) !important;
+    transition: background-color var(--transition);
+  }
+
+  .row-credit {
+    background-color: var(--row-credit-bg) !important;
+    transition: background-color var(--transition);
+  }
+
+  /* row border utility reads theme token */
+  .row-border {
+    border-bottom: 1px solid var(--row-border) !important;
+  }
+
 
   /* ---------- BANK CARD ---------- */
   .bank-card {
@@ -391,7 +449,24 @@ html.light {
 
   /* ---------- BANK INFO ---------- */
   .bank-info {
-    @apply gap-[18px] flex p-4 transition-all border bg-blue-25 border-transparent;
+    @apply gap-[18px] flex p-4 transition-all shadow-s border-radius;
+    background-color: var(--bg-blue-light)
+  }
+
+  .bank-info-acc-name{
+    @apply text-16 line-clamp-1 flex-1 font-bold;
+    color: var(--text-blue);
+  }
+
+  .bank-info-acc-type{
+    @apply text-12 rounded-full px-3 py-1 font-medium;
+    color: var(--text-blue);
+
+  }
+
+  .bank-info-balance{
+    @apply text-16 font-medium;
+    color: var(--text-blue-light);
   }
 
   /* ---------- CATEGORY BADGE ---------- */
@@ -425,6 +500,11 @@ html.light {
     @apply flex !justify-start cursor-pointer gap-3 rounded-lg !bg-transparent flex-row;
   }
 
+  .plaidlink-addbank {
+    @apply text-14 font-semibold;
+    color: var(--text-muted)
+  }
+  
   /* ---------- AUTH ---------- */
   .auth-asset {
     @apply flex h-screen w-full sticky top-0 items-center justify-end bg-sky-1 max-lg:hidden;
@@ -492,31 +572,16 @@ html.light {
 
   /* ---------- FOOTER ---------- */
   .footer {
-    @apply flex cursor-pointer items-center justify-between gap-2 py-6;
+    @apply flex  cursor-pointer ;
   }
 
-  .footer_name {
-    @apply flex size-10 items-center justify-center rounded-full bg-gray-200 max-xl:hidden;
-  }
-
-  .footer_email {
-    @apply flex flex-1 flex-col justify-center max-xl:hidden;
-  }
-
-  .footer_name-mobile {
-    @apply flex size-10 items-center justify-center rounded-full bg-gray-200;
-  }
-
-  .footer_email-mobile {
-    @apply flex flex-1 flex-col justify-center;
+  .footer-text {
+    @apply text-14 truncate font-normal;
+    color: var(--text-muted);
   }
 
   .footer_image {
     @apply relative size-5 max-xl:w-full max-xl:flex max-xl:justify-center max-xl:items-center;
-  }
-
-  .footer_image-mobile {
-    @apply relative size-5;
   }
 
 

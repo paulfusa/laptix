@@ -74,7 +74,8 @@ const PlaidLink = ({user, variant}: PlaidLinkProps) => {
             alt="Add Bank"
             width={20}
             height={20}/>
-          <h2 className= "text-14 font-semibold text-gray-600">Add Bank</h2>
+            {/* brightness-[3] invert-0 */}
+          <h2 className= "plaidlink-addbank">Add Bank</h2>
         </Button>
       )}
     </>
