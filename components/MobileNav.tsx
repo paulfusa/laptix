@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/sheet"
 import Image from 'next/image'
 import Link from 'next/link'
-import { sidebarLinks } from '@/constants'
+import { navbarLinks } from '@/constants'
 import { cn } from '@/lib/utils'
 import { usePathname } from 'next/navigation'
 import Footer from "./Footer";
@@ -41,7 +41,7 @@ const MobileNav = ({user}:MobileNavProps) => {
                         <div className="mobilenav-sheet">
                             <SheetClose asChild>
                                 <nav className="flex h-full flex-col gap-2 pt-0 text-white">
-                                    {sidebarLinks.map((item) => {
+                                    {navbarLinks.map((item) => {
                                         const isActive = item.route === pathname || pathname.startsWith(`${item.route}/`);
                                         return(
                                             <SheetClose asChild key={item.route}>

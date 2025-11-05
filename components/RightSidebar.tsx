@@ -6,6 +6,7 @@ import BankCard from './BankCard'
 import { countTransactionCategories } from '@/lib/utils'
 import Category from './Category'
 import PlaidLink from './PlaidLink'
+import Footer from './Footer';
 
 const RightSidebar = ({user, transactions, banks}: RightSidebarProps) => {
     const categories: CategoryCount[] = countTransactionCategories(transactions);
@@ -67,6 +68,8 @@ const RightSidebar = ({user, transactions, banks}: RightSidebarProps) => {
                 </div>
             </div>
         </section>
+        <Footer user={user}/>
+
     </aside>
   )
 }

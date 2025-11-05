@@ -3,7 +3,7 @@ import Sidebar from "@/components/Sidebar";
 import MobileNav from '@/components/MobileNav';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
-import { ThemeProvider } from '@/components/theme-provider';
+import NavBarTop from '@/components/NavBarTop';
 
 export default async function RootLayout({
   children,
@@ -13,8 +13,9 @@ export default async function RootLayout({
   const loggedIn = await getLoggedInUser();
   if(!loggedIn) redirect('/sign-in')
   return (
-    <main className="flex h-screen w-full font-inter">
-      <Sidebar user={loggedIn}/>
+    <main>
+      {/* <Sidebar user={loggedIn}/> */}
+      <NavBarTop user={loggedIn}/>
       <div className="flex size-full flex-col">
         <div className="root-layout">
           <Image

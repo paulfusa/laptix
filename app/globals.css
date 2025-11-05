@@ -14,14 +14,15 @@
 
 :root {
   --transition: 0.1s ease-in-out;
-}
-:root {
+
   /* bg-colors */
-  --primary: oklch(55.671% 0.24453 262.671);
+  --primary: rgb(23, 97, 255);
   --primary-gradient: linear-gradient(70deg, var(--primary) 0%, rgb(89, 144, 246) 100%);
-  --bg-dark: oklch(0.1 0 264);
-  --bg: oklch(0.2 0 264);
-  --bg-light: oklch(0.3 0 264);
+  --bg-dark: rgb(3, 3, 3);
+  --bg: rgb(22, 22, 22);
+  --bg-light: rgb(46, 46, 46);
+  --bg-blur: rgba(22, 22, 22, 0.4);
+
   
   /* text-colors */
   --text: oklch(0.96 0 264);
@@ -36,24 +37,22 @@
 }
 html.light {
   /* bg-colors */
-  --bg-dark: oklch(0.92 0 264);
-  --bg: oklch(0.96 0 264);
-  --bg-light: oklch(1 0 264);
+  --bg-dark: rgb(228, 228, 228);
+  --bg: rgb(242, 242, 242);
+  --bg-light: rgb(255, 255, 255);
+  --bg-blur: rgba(242, 242, 242, 0.4);
+
   /* text-colors */
   --text: oklch(0.15 0 264);
   --text-muted: oklch(0.4 0 264);
 }
-body {
-  /* background: var(--bg-dark); */
-  /* color: var(--text-muted); */
-}
+
 
 /* shadows */
 .shadows {
   background: var(--bg);
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-
   padding: 1rem;
   gap: 1rem;
   margin: 2rem 0 4rem 0;
@@ -75,15 +74,6 @@ body {
   box-shadow: var(--shadow-l);
 }
 
-.shadow-s-in {
-  box-shadow: inset var(--shadow-s);
-}
-.shadow-m-in {
-  box-shadow: inset var(--shadow-m);
-}
-.shadow-l-in {
-  box-shadow: inset var(--shadow-l);
-}
 
 .border-radius {
   border-radius: 28px;
@@ -142,7 +132,7 @@ body {
 
 
 .input-class {
-  @apply text-[16px] leading-[24px] placeholder:text-[16px] placeholder:leading-[24px] rounded-lg border border-gray-300 text-gray-900 placeholder:text-gray-500;
+  @apply text-[16px] leading-[24px] placeholder:text-[16px] placeholder:leading-[24px] rounded-lg border border-gray-300 placeholder:text-gray-500;
 }
 
 
@@ -164,7 +154,7 @@ body {
   }
 
   .header-2 {
-    @apply text-[18px] leading-[22px] font-semibold text-gray-900;
+    @apply text-[18px] leading-[22px] font-semibold;
   }
 
   .text-10 {
@@ -207,6 +197,69 @@ body {
     @apply text-[36px] leading-[44px];
   }
 
+
+/* ------------------- TOP NAV BAR -------------------- */
+  .navbar-top {
+    @apply absolute top-2 left-1/2 h-[57.5px] w-3/5 py-2 -translate-x-1/2 flex flex-row justify-center gap-2 border-radius shadow-l ; /*max-md:hidden sm:p-4 xl:p-5 2xl:w-[355px] pt-8 */
+    background: var(--bg-blur);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+
+  }
+  .navbar-logo {
+    @apply 2xl:text-20 text-[20px] font-bold max-xl:hidden pl-2 pr-10;
+    color: inherit; 
+  }
+
+  .navbar-link {
+    @apply flex gap-3 items-center py-1 md:p-3 2xl:p-3 rounded-lg justify-center xl:justify-start;
+  }
+
+  .navbar-label {
+    @apply text-[15px] leading-[15px] font-semibold max-xl:hidden;
+    /* non-selected navbar labels use the muted text token */
+    color: var(--text-muted);
+    transition: color var(--transition);
+  }
+
+  /* When the parent is hovered/focused, promote muted text to normal text color */
+  .shadow-fade:hover .navbar-label,
+  .navbar-link:hover .navbar-label,
+  .shadow-fade:focus .navbar-label,
+  .navbar-link:focus .navbar-label {
+    color: var(--text) !important;
+  }
+
+  /* Also support generic .text-muted children inside shadow-fade/sidebar-link */
+  .text-muted {
+    color: var(--text-muted) !important;
+    transition: color var(--transition);
+  }
+
+  .shadow-fade:hover .text-muted,
+  .navbar-link:hover .text-muted,
+  .shadow-fade:focus .text-muted,
+  .navbar-link:focus .text-muted {
+    color: var(--text) !important;
+  }
+
+  /* Shared hover/focus transition: fade-in shadow and slight lift
+     Applied to both .sidebar-link and .shadow-fade so there's a single source of truth */
+  .shadow-fade, .navbar-link {
+    box-shadow: none; /* start with no shadow so hover can animate in */
+    transition: box-shadow var(--transition), transform var(--transition);
+    will-change: box-shadow, transform;
+  }
+
+  .shadow-fade:hover, .navbar-link:hover,
+  .shadow-fade:focus, .navbar-link:focus {
+    box-shadow: var(--shadow-m);
+    /* transform: translateY(-1px); */
+    
+  }
+
+
   /* ---------- HOME ---------- */
   .home {
     @apply no-scrollbar flex w-full flex-row max-xl:max-h-screen max-xl:overflow-y-scroll;
@@ -233,11 +286,11 @@ body {
   }
 
   .total-balance-label {
-    @apply text-[14px] leading-[20px] font-medium text-gray-600;
+    @apply text-[14px] leading-[20px] font-medium;
   }
 
   .total-balance-amount {
-    @apply text-[24px] leading-[30px] lg:text-[30px] lg:leading-[38px] flex-1 font-semibold text-gray-900;
+    @apply text-[24px] leading-[30px] lg:text-[30px] lg:leading-[38px] flex-1 font-semibold;
   }
 
   .recent-transactions {
@@ -245,11 +298,11 @@ body {
   }
 
   .view-all-btn {
-    @apply text-14 rounded-lg border border-gray-300 px-4 py-2.5 font-semibold text-gray-700;
+    @apply text-14 rounded-lg border border-gray-300 px-4 py-2.5 font-semibold; /* grey out */
   }
 
   .recent-transactions-label {
-    @apply text-[20px] leading-[24px] md:text-[24px] md:leading-[30px] font-semibold text-gray-900;
+    @apply text-[20px] leading-[24px] md:text-[24px] md:leading-[30px] font-semibold ;
   }
 
   .recent-transactions-tablist {
@@ -278,11 +331,11 @@ body {
   }
 
   .profile-name {
-    @apply text-[24px] leading-[30px] font-semibold text-gray-900;
+    @apply text-[24px] leading-[30px] font-semibold;
   }
 
   .profile-email {
-    @apply text-[16px] leading-[24px] font-normal text-gray-600;
+    @apply text-[16px] leading-[24px] font-normal ; /* gray out */
   }
 
   .banks {
@@ -316,11 +369,11 @@ body {
   }
 
   .header-box-title {
-    @apply text-[24px] leading-[30px] lg:text-[30px] lg:leading-[38px]  font-semibold text-gray-900;
+    @apply text-[24px] leading-[30px] lg:text-[30px] lg:leading-[38px]  font-semibold;
   }
 
   .header-box-subtext {
-    @apply text-[14px] leading-[20px] lg:text-[16px] lg:leading-[24px] font-normal text-gray-600;
+    @apply text-[14px] leading-[20px] lg:text-[16px] lg:leading-[24px] font-normal ; /* gray out */
   }
 
   /* ---------- BANK CARD ---------- */
@@ -466,71 +519,5 @@ body {
     @apply relative size-5;
   }
 
-  /* ---------- SIDEBAR ---------- */
-  .sidebar {
-    @apply sticky left-0 top-0 flex h-screen w-fit flex-col justify-between border-r max-md:hidden sm:p-4 xl:p-5 2xl:w-[355px] pt-8;
-    /* Use theme variables so the sidebar follows light/dark themes */
-    background: var(--bg);
-    color: var(--text);
-  }
 
-  .sidebar-logo {
-    @apply 2xl:text-26 text-[26px] font-bold max-xl:hidden;
-    color: inherit; 
-  }
-
-  .sidebar-link {
-    @apply flex gap-3 items-center py-1 md:p-3 2xl:p-4 rounded-lg justify-center xl:justify-start;
-  }
-
-  .sidebar-label {
-    @apply text-[16px] leading-[24px] font-semibold max-xl:hidden;
-    /* non-selected sidebar labels use the muted text token */
-    color: var(--text-muted);
-    transition: color var(--transition);
-  }
-
-  /* When the parent is hovered/focused, promote muted text to normal text color */
-  .shadow-fade:hover .sidebar-label,
-  .sidebar-link:hover .sidebar-label,
-  .shadow-fade:focus .sidebar-label,
-  .sidebar-link:focus .sidebar-label {
-    color: var(--text) !important;
-  }
-
-  /* Also support generic .text-muted children inside shadow-fade/sidebar-link */
-  .text-muted {
-    color: var(--text-muted) !important;
-    transition: color var(--transition);
-  }
-
-  .shadow-fade:hover .text-muted,
-  .sidebar-link:hover .text-muted,
-  .shadow-fade:focus .text-muted,
-  .sidebar-link:focus .text-muted {
-    color: var(--text) !important;
-  }
-
-  /* Shared hover/focus transition: fade-in shadow and slight lift
-     Applied to both .sidebar-link and .shadow-fade so there's a single source of truth */
-  .shadow-fade, .sidebar-link {
-    box-shadow: none; /* start with no shadow so hover can animate in */
-    transition: box-shadow var(--transition), transform var(--transition);
-    will-change: box-shadow, transform;
-  }
-
-  .shadow-fade:hover, .sidebar-link:hover,
-  .shadow-fade:focus, .sidebar-link:focus {
-    box-shadow: var(--shadow-m);
-    /* transform: translateY(-1px); */
-    
-  }
-}
-
-
-/* --------- TOP NAV BAR ---------- */
-.navbar-top {
-  position: sticky;
-  top: 0;
-  padding-block: 20px;
 }
