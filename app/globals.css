@@ -165,6 +165,13 @@ html.light {
 
 @layer utilities {
  
+  /* ---------- ROOT LAYOUT ---------- */
+  .root-layout {
+    @apply flex h-16 items-center justify-between p-5 shadow-creditCard sm:p-8 md:hidden;
+  }
+  .page-padding {
+    @apply pt-5 pb-5 pr-10 pl-10 -translate-y-10;
+  }
 
   .sheet-content button {
     @apply focus:ring-0 focus-visible:ring-transparent focus:ring-offset-0 focus-visible:ring-offset-0 focus-visible:outline-none focus-visible:border-none !important;
@@ -225,7 +232,7 @@ html.light {
 
 /* ------------------- TOP NAV BAR -------------------- */
   .navbar-top {
-    @apply absolute top-2 left-1/2 h-[57.5px] w-3/5 py-2 -translate-x-1/2 flex flex-row justify-center gap-2 border-radius shadow-l ; /*max-md:hidden sm:p-4 xl:p-5 2xl:w-[355px] pt-8 */
+    @apply sticky z-50 top-0 translate-y-2 left-1/2 -translate-x-[30%] flex flex-row h-[57.5px] w-3/5 py-2 justify-center gap-2 border-radius shadow-l ; 
     background: var(--bg-blur);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
@@ -286,18 +293,39 @@ html.light {
 
 
   /* ------------------- HOME ------------------- */
+
+  .home-header {
+    @apply flex flex-col page-padding w-screen  ;
+  }
   .home {
-    @apply no-scrollbar flex w-full flex-row max-xl:max-h-screen max-xl:overflow-y-scroll;
+    @apply no-scrollbar flex flex-row gap-5;
   }
 
   .home-content {
-    @apply no-scrollbar flex w-full flex-1 flex-col gap-8 px-5 sm:px-8 py-7 lg:py-12 xl:max-h-screen xl:overflow-y-scroll;
-  }
-
-  .home-header {
-    @apply flex flex-col gap-8 w-screen;
+    @apply no-scrollbar flex flex-col flex-1 gap-5;
   }
   
+  /* HEADER HOME */
+  .header-box {
+    @apply flex flex-col gap-1;
+  }
+
+  .header-box-title {
+    @apply text-[24px] leading-[30px] lg:text-[30px] lg:leading-[38px] font-semibold;
+  }
+
+  .header-box-subtext {
+    @apply text-[14px] leading-[20px] lg:text-[16px] lg:leading-[24px] font-normal ;
+    color: var(--text-muted);
+  }
+
+  .table-header{
+    @apply shadow-m;
+    background-color: var(--bg-light);
+    border-radius: 10px 10px 0 0;
+  }
+
+
   /* Total Balance */
   .total-balance {
     @apply flex items-center sm:gap-8 sm:p-8 shadow-m border-radius;
@@ -343,7 +371,7 @@ html.light {
 
   /* ------------------- RIGHT SIDEBAR ------------------- */
   .right-sidebar {
-    @apply mx-5 no-scrollbar hidden h-full flex-col shadow-l border-radius xl:flex w-[355px] xl:overflow-y-scroll !important;
+    @apply no-scrollbar hidden h-full flex-col shadow-l border-radius xl:flex w-[355px] xl:overflow-y-scroll !important;
     background: var(--bg-light);
   }
 
@@ -397,26 +425,7 @@ html.light {
   .transactions-account-balance {
     @apply flex-center flex-col  gap-2 rounded-md bg-blue-25/20 px-4 py-2 text-white;
   }
-  /* HEADER HOME */
-  .header-box {
-    @apply flex flex-col gap-1;
-  }
-
-  .header-box-title {
-    @apply text-[24px] leading-[30px] lg:text-[30px] lg:leading-[38px]  font-semibold;
-  }
-
-  .header-box-subtext {
-    @apply text-[14px] leading-[20px] lg:text-[16px] lg:leading-[24px] font-normal ;
-    color: var(--text-muted);
-  }
-
-  .table-header{
-    @apply shadow-m;
-    background-color: var(--bg-light);
-    border-radius: 10px 10px 0 0;
-  }
-
+  
   /* -- Row background utility classes use CSS tokens so they follow light/dark mode */
   .row-debit {
     background-color: var(--row-debit-bg) !important;
@@ -560,10 +569,6 @@ html.light {
     @apply text-[14px] leading-[20px] w-full bg-bank-gradient font-semibold text-white shadow-form !important;
   }
 
-  /* ---------- ROOT LAYOUT ---------- */
-  .root-layout {
-    @apply flex h-16 items-center justify-between p-5 shadow-creditCard sm:p-8 md:hidden;
-  }
 
   /* ---------- BANK INFO ---------- */
   .bank-info_content {

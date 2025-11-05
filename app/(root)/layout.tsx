@@ -14,10 +14,8 @@ export default async function RootLayout({
   if(!loggedIn) redirect('/sign-in')
   return (
     <main>
-      {/* <Sidebar user={loggedIn}/> */}
       <NavBarTop user={loggedIn}/>
-      <div className="flex size-full flex-col">
-        <div className="root-layout">
+        {/* <div className="root-layout">
           <Image
             src="/icons/laptix-logo.png"
             width={30} height={30}
@@ -25,10 +23,8 @@ export default async function RootLayout({
             <div>
               <MobileNav user={loggedIn}/>
             </div>
-        </div>
-        {children}
-      </div>
-      
+        </div> */}
+        {children}      
     </main>
   );
 }
