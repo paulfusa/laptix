@@ -19,8 +19,8 @@ const NavBarTop = ({user}: NavBarTopProps) => {
             src="/icons/laptix-logo.png" 
             alt="Laptix Logo" 
             width={48} height={48} 
-            className="size-[36px] max-xl:size-12"/>
-            <h1 className="navbar-logo ">Laptix</h1>
+            className="navbar-logo"/>
+            <h1 className="navbar-logo-text">Laptix</h1>
         </Link>
         {navbarLinks.map((item) => {
             const isActive = item.route === pathname || pathname.startsWith(`${item.route}/`);

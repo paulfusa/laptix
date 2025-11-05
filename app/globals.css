@@ -154,8 +154,6 @@ html.light {
   background: #7878a3;
 }
 
-
-
 .input-class {
   @apply text-[16px] leading-[24px] placeholder:text-[16px] placeholder:leading-[24px] rounded-lg border border-gray-300 placeholder:text-gray-500;
 }
@@ -232,24 +230,36 @@ html.light {
 
 /* ------------------- TOP NAV BAR -------------------- */
   .navbar-top {
-    @apply sticky z-50 top-0 translate-y-2 left-1/2 -translate-x-[30%] flex flex-row h-[57.5px] w-3/5 py-2 justify-center gap-2 border-radius shadow-l ; 
+    @apply sticky z-50 top-0 translate-y-2 left-1/2 -translate-x-[30%] flex flex-row h-[57.5px] w-3/5 py-2 justify-center gap-2 border-radius shadow-l;
     background: var(--bg-blur);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.3);
-
   }
-  .navbar-logo {
-    @apply 2xl:text-20 text-[20px] font-bold max-xl:hidden pl-2 pr-10;
+
+  /* Move top navbar to bottom on small screens (max-lg) - minimal: only change positioning */
+  @media (max-width: 1024px) {
+    .navbar-top {
+      @apply fixed bottom-0 top-auto -translate-y-2 -translate-x-[50%];
+    }
+  }
+
+
+  .navbar-logo{
+    @apply size-10 max-2xl:mr-5 ml-5 max-lg:hidden;
+  }
+
+  .navbar-logo-text {
+    @apply 2xl:text-20 text-[20px] font-bold pl-2 pr-10 max-2xl:hidden ;
     color: inherit; 
   }
 
   .navbar-link {
-    @apply flex gap-3 items-center py-1 md:p-3 2xl:p-3 rounded-lg justify-center xl:justify-start;
+    @apply flex items-center justify-center rounded-lg gap-3 py-1 p-3  ;
   }
 
   .navbar-label {
-    @apply text-[15px] leading-[15px] font-semibold max-xl:hidden;
+    @apply text-[15px] leading-[20px] font-semibold max-xl:text-[12px] max-lg:hidden;
     /* non-selected navbar labels use the muted text token */
     color: var(--text-muted);
     transition: color var(--transition);
