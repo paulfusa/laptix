@@ -11,4 +11,11 @@ const nextConfig: NextConfig = {
   }
 };
 
+// Allow loading remote images from Plaid merchant logos
+nextConfig.images = {
+  domains: [
+    'plaid-merchant-logos.plaid.com'
+  ],
+};
+
 export default nextConfig;

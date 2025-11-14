@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 import {
   Table,
   TableBody,
@@ -24,20 +25,21 @@ const CategoryBadge = ({ category }: CategoryBadgeProps) => {
       <div className={cn('size-2 rounded-full', backgroundColor)} />
       <p className={cn('text-[12px] font-medium', textColor)}>{category}</p>
     </div>
-  )
-}
+  );
+};
 
 const TransactionsTable = ({ transactions }: TransactionTableProps) => {
   return (
     <Table>
       <TableHeader className="table-header">
         <TableRow>
+          <TableHead className="px-2 w-12"></TableHead>
           <TableHead className="px-2">Transaction</TableHead>
           <TableHead className="px-2">Amount</TableHead>
           <TableHead className="px-2">Status</TableHead>
           <TableHead className="px-2">Date</TableHead>
-          <TableHead className="px-2 max-md:hidden">Channel</TableHead>
-          <TableHead className="px-2 max-md:hidden">Category</TableHead>
+              <TableHead className="px-2 max-md:hidden">Category</TableHead>
+              <TableHead className="px-2 max-md:hidden">Channel</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -49,6 +51,21 @@ const TransactionsTable = ({ transactions }: TransactionTableProps) => {
 
           return (
             <TableRow key={t.id} className={`${isDebit || amount[0] === '-' ? 'row-debit row-border' : 'row-credit row-border'} !over:bg-none`}>
+              {/* Logo */}
+              <TableCell className="pl-2 pr-2 max-w-[48px]">
+                <div className="flex items-center">
+                  <figure className="transactions-logo">
+                    <Image
+                      src={t.image || '/icons/credit-card.svg'}
+                      width={32}
+                      height={32}
+                      alt={t.name ? `${t.name} logo` : 'company logo'}
+                      className="object-contain scale-105 shadow-m"
+                      
+                    />
+                  </figure>
+                </div>
+              </TableCell>
               {/* Transaction Name */}
               <TableCell className="max-w-[250px] pl-2 pr-10">
                 <div className="flex items-center gap-3">

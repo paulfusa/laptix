@@ -86,7 +86,8 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
         amount: transferData.amount!,
         date: transferData.$createdAt,
         paymentChannel: transferData.channel,
-        category: transferData.category,
+        // Ensure category is a string and fall back to 'Transfer' when missing
+        category: transferData.category && transferData.category.length ? transferData.category : "Transfer",
         type: transferData.senderBankId === bank.$id ? "debit" : "credit",
       })
     );
@@ -120,6 +121,13 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
       const allTransactions = [...txs, ...transferTransactions].sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
+
+    // DEBUG: log categories to help diagnose uncategorized transactions
+    try {
+      console.log("DEBUG: transaction categories ->", allTransactions.map((tx) => ({ id: tx.id, category: tx.category })));
+    } catch (err) {
+      console.log("DEBUG: failed to log transaction categories", err);
+    }
 
     return parseStringify({
       data: account,
@@ -164,18 +172,57 @@ export const getTransactions = async ({
 
       const data = response.data;
 
-      transactions = response.data.added.map((transaction) => ({
-        id: transaction.transaction_id,
-        name: transaction.name,
-        paymentChannel: transaction.payment_channel,
-        type: transaction.payment_channel,
-        accountId: transaction.account_id,
-        amount: transaction.amount,
-        pending: transaction.pending,
-        category: transaction.category ? transaction.category[0] : "",
-        date: transaction.date,
-        image: transaction.logo_url,
-      }));
+      // DEBUG: log raw Plaid 'added' items so we can inspect category arrays
+      try {
+        console.log(
+          "DEBUG: raw Plaid added items ->",
+          response.data.added.map((tx: any) => ({
+            id: tx.transaction_id,
+            name: tx.name,
+            category: tx.category,
+          }))
+        );
+      } catch (err) {
+        console.log("DEBUG: failed to log raw Plaid items", err);
+      }
+
+      // Small heuristic: infer category from merchant name when Plaid returns null
+      const inferCategoryFromName = (name: string | undefined, rawCategory: string | null) => {
+        if (rawCategory && rawCategory !== "Uncategorized") return rawCategory;
+        if (!name) return "Uncategorized";
+        const n = name.toLowerCase();
+
+        if (n.includes("uber") || n.includes("lyft") || n.includes("taxi") || n.includes("pool")) return "Travel";
+        if (n.includes("united") || n.includes("airlines") || n.includes("delta") || n.includes("flight")) return "Travel";
+        if (n.includes("mcdonald") || n.includes("starbucks") || n.includes("coffee") || n.includes("restaurant") || n.includes("deli")) return "Food and Drink";
+        if (n.includes("grocery") || n.includes("walmart") || n.includes("costco") || n.includes("supermarket")) return "Groceries";
+        if (n.includes("sparkfun") || n.includes("amazon") || n.includes("shop") || n.includes("store") || n.includes("shopify")) return "Shopping";
+        if (n.includes("atm") || n.includes("withdrawal")) return "ATM";
+        if (n.includes("rent") || n.includes("mortgage")) return "Rent";
+        if (n.includes("payroll") || n.includes("salary") || n.includes("deposit") || n.includes("direct deposit")) return "Income";
+        if (n.includes("refund")) return "Refund";
+
+        return "Uncategorized";
+      };
+
+      transactions = response.data.added.map((transaction) => {
+        const rawCat = transaction.category && transaction.category.length ? transaction.category[0] : null;
+        const inferred = inferCategoryFromName(transaction.name, rawCat);
+
+        return {
+          id: transaction.transaction_id,
+          name: transaction.name,
+          paymentChannel: transaction.payment_channel,
+          // Plaid doesn't provide debit/credit directly in this field; keep original if available
+          type: transaction.payment_channel,
+          accountId: transaction.account_id,
+          amount: transaction.amount,
+          pending: transaction.pending,
+          category: inferred,
+          date: transaction.date,
+          image: transaction.logo_url,
+        };
+      });
 
       hasMore = data.has_more;
     }

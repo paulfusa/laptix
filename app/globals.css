@@ -374,10 +374,29 @@ html.light {
   }
 
   .recent-transactions-tablist {
-    @apply custom-scrollbar mb-8 flex w-full flex-nowrap;
+    @apply mb-2 flex flex-nowrap;
   }
 
+  .banktab-item {
+    @apply gap-[18px] flex p-2 transition-all shadow-s rounded-md;
+    background-color: var(--bg-light-extra)
+  }
 
+  /* Bank tab: default muted text, when selected use primary gradient bg and main text color
+     The BankTabItem component adds `border-blue-600` when active, so target that class
+     to avoid changing component code. Use higher-specificity selectors to override
+     existing Tailwind color utility classes without touching spacing/padding. */
+  .banktab-item p {
+    color: var(--text-muted) !important;
+  }
+
+  .banktab-item.border-blue-600 {
+    background: var(--primary-gradient) !important;
+  }
+
+  .banktab-item.border-blue-600 p {
+    color: var(--text) !important;
+  }
 
   /* ------------------- RIGHT SIDEBAR ------------------- */
   .right-sidebar {
@@ -416,12 +435,14 @@ html.light {
 
   /* ---------- MY BANKS ---------- */
   .my-banks {
-    @apply flex h-screen max-h-screen w-full flex-col gap-8 bg-gray-25 p-8 xl:py-12;
+    @apply flex h-screen max-h-screen w-full flex-col gap-8 p-8 xl:py-12;
   }
 
   /* ---------- TRANSACTIONS ---------- */
   .transactions {
-    @apply flex max-h-screen w-full flex-col gap-8 overflow-y-scroll bg-gray-25 p-8 xl:py-12 border-radius shadow-m;
+    @apply flex max-h-screen w-full flex-col gap-3 overflow-y-scroll p-8 xl:py-8 border-radius shadow-m;
+    background: var(--bg-light);
+
   }
 
   .transactions-header {
@@ -429,13 +450,17 @@ html.light {
   }
 
   .transactions-account {
-    @apply flex flex-col justify-between gap-4 rounded-lg border-y bg-blue-600 px-4 py-5 md:flex-row;
+    @apply flex flex-col justify-between gap-4 rounded-lg bg-blue-600 p-5 md:flex-row shadow-l;
   }
 
   .transactions-account-balance {
     @apply flex-center flex-col  gap-2 rounded-md bg-blue-25/20 px-4 py-2 text-white;
   }
   
+  .transactions-logo{
+    @apply size-8 rounded-full shadow-m  overflow-hidden ;
+  }
+
   /* -- Row background utility classes use CSS tokens so they follow light/dark mode */
   .row-debit {
     background-color: var(--row-debit-bg) !important;
@@ -455,7 +480,7 @@ html.light {
 
   /* ---------- BANK CARD ---------- */
   .bank-card {
-    @apply relative flex h-[190px] w-full max-w-[320px] justify-between rounded-[20px] border border-white bg-bank-gradient shadow-creditCard backdrop-blur-[6px];
+    @apply relative flex h-[190px] w-full max-w-[320px] justify-between rounded-[20px] shadow-l bg-bank-gradient shadow-creditCard backdrop-blur-[6px];
   }
 
   .bank-card_content {
@@ -493,9 +518,7 @@ html.light {
     @apply flex-center truncate w-fit gap-1 rounded-2xl border-[1.5px] py-[2px] pl-1.5 pr-2;
   }
 
-  .banktab-item {
-    @apply gap-[18px] border-b-2 flex px-2 sm:px-4 py-2 transition-all;
-  }
+
 
   /* ---------- MOBILE NAV ---------- */
   .mobilenav-sheet {
