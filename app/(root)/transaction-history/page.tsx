@@ -1,5 +1,6 @@
 import HeaderBox from '@/components/HeaderBox'
 import { Pagination } from '@/components/Pagination';
+import RightSidebar from '@/components/RightSidebar';
 import TransactionsTable from '@/components/TransactionsTable';
 import { getAccount, getAccounts } from '@/lib/actions/bank.actions';
 import { getLoggedInUser } from '@/lib/actions/user.actions';
@@ -30,7 +31,7 @@ const TransactionHistory = async ({ searchParams: { id, page }}:SearchParamProps
   )
 
   return (
-    <section className="page-padding">
+    <section className="home page-padding">
       <div className="transactions">
         <div className="transactions-header">
           <HeaderBox 
@@ -66,9 +67,16 @@ const TransactionHistory = async ({ searchParams: { id, page }}:SearchParamProps
                   <Pagination totalPages={totalPages} page={currentPage}/>
                 </div>
               )}
+
           </section>
         </div>
       </div>
+          {/* Right Sidebar */}
+          <RightSidebar 
+            user={loggedIn}
+            transactions={account?.transactions}
+            banks={accountsData?.slice(0, 2)}
+          />
     </section>
   )
 }
